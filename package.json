@@ -2,20 +2,17 @@
   "name": "gftwhackathon",
   "version": "0.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "public/index.js",
   "engines": {
     "node": "12.x"
   },
   "scripts": {
     "start": "rollup -c -w",
     "build": "rollup -c",
-    "check": "gts check",
-    "clean": "gts clean",
-    "compile": "tsc",
-    "fix": "gts fix",
-    "prepare": "npm run compile",
-    "pretest": "npm run compile",
-    "posttest": "npm run check"
+    "lint": "gts check",
+    "deploy": "firebase deploy",
+    "deploy:cli": "firebase deploy --non-interactive --token $FIREBASE_TOKEN",
+    "postinstall": "npm --prefix functions install"
   },
   "repository": {
     "type": "git",
@@ -38,6 +35,7 @@
     "@rollup/plugin-commonjs": "^13.0.0",
     "@rollup/plugin-node-resolve": "^8.0.1",
     "@types/node": "^13.11.1",
+    "firebase-tools": "^8.4.2",
     "gts": "^2.0.2",
     "rollup": "^2.12.0",
     "rollup-plugin-cleanup": "^3.1.1",
