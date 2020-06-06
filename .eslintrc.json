@@ -1,0 +1,14 @@
+{
+  "extends": "./node_modules/gts/",
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "rules": {
+    "node/no-unsupported-features/es-syntax": ["off"],
+    "node/no-unpublished-import": ["off"]
+  }
+}

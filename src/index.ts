@@ -1,1 +1,4 @@
-console.log('Hello World');
+import './libraries/firebase';
+import './components/map';
+
+(async () => {})();
