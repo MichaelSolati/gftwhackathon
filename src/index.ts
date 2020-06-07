@@ -1,4 +1,12 @@
-import './libraries/firebase';
-import './components/map';
+import './styles/index.scss';
 
-(async () => {})();
+import './libraries/firebase';
+import {googleMapsLoader} from './libraries/google-maps';
+
+import './components/map';
+import './components/root';
+
+(async () => {
+  await googleMapsLoader();
+  document.body.append(document.createElement('app-root'));
+})();

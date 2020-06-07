@@ -16,7 +16,9 @@ const onwarn = (warning, rollupWarn) => {
 };
 
 let plugins = [
-  scss({output: false}),
+  scss({
+    watch: process.env.ROLLUP_WATCH ? ['src/styles'] : [],
+  }),
   resolve(),
   typescript({
     tsconfig: 'tsconfig.json',
