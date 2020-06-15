@@ -1,0 +1,5 @@
+<agm-map #map [latitude]="location.latitude" [longitude]="location.longitude" [zoom]="locationEnabled ? 13 : 2" (centerChange)="centerChange($event)">
+  <agm-marker *ngIf="locationEnabled" [latitude]="location.latitude" [longitude]="location.longitude" [iconUrl]="'./assets/location.gif'"></agm-marker>
+  <agm-marker *ngFor="let marker of markers | keyvalue" [latitude]="marker.g.latitude" [longitude]="marker.g.longitude">
+  </agm-marker>
+</agm-map>

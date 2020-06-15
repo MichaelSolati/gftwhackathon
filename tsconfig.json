@@ -1,28 +1,23 @@
 {
-  "extends": "./node_modules/gts/tsconfig-google.json",
+  "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": ".",
-    "outDir": "./public",
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
     "experimentalDecorators": true,
     "module": "esnext",
     "moduleResolution": "node",
-    "strictNullChecks": false,
-    "strictPropertyInitialization": false,
-    "declaration": false,
-    "removeComments": true,
-    "target": "es2017",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
+    "importHelpers": true,
+    "target": "es2015",
     "lib": [
-      "es2017",
+      "es2018",
       "dom"
     ]
   },
-  "files": [
-    "./src/index.ts"
-  ],
-  "include": [
-    "src/**/*"
-  ],
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true
+  }
 }
