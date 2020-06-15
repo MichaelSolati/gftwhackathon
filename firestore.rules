@@ -4,5 +4,14 @@ service cloud.firestore {
     match /{document=**} {
       allow read, write: if false;
     }
+    match /viewers/{key} {
+      allow read: if true;
+      allow create, update: if request.resource.data.size() == 3
+														&& request.resource.data.keys().hasAll(['g', 'coordinates', 'collections'])
+                            && request.resource.data.g.size() == 2
+                            && request.resource.data.g.geohash is string
+                            && request.resource.data.g.geopoint is latlng
+                            && request.resource.data.coordinates is latlng
+    }
   }
 }

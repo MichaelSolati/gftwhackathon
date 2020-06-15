@@ -1,5 +1,24 @@
-<agm-map #map [latitude]="location.latitude" [longitude]="location.longitude" [zoom]="locationEnabled ? 13 : 2" (centerChange)="centerChange($event)">
-  <agm-marker *ngIf="locationEnabled" [latitude]="location.latitude" [longitude]="location.longitude" [iconUrl]="'./assets/location.gif'"></agm-marker>
-  <agm-marker *ngFor="let marker of markers | keyvalue" [latitude]="marker.g.latitude" [longitude]="marker.g.longitude">
+<agm-map #map [latitude]="location.latitude" [longitude]="location.longitude" [zoom]="locationEnabled ? 13 : 2"
+  (centerChange)="centerChange($event)">
+  <agm-marker *ngIf="locationEnabled" [latitude]="location.latitude" [longitude]="location.longitude"
+    [iconUrl]="'./assets/location.gif'"></agm-marker>
+  <agm-marker *ngFor="let marker of markers | keyvalue;trackBy: trackByFn" [latitude]="marker.value.g.geopoint.latitude"
+    [longitude]="marker.value.g.geopoint.longitude">
+    <agm-info-window>
+      <ion-card-header>
+        <ion-card-subtitle>Collected around {{marker.value.location}}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p *ngIf="!donated; else elseBlock">Please contribute to see what other's have contributed</p>
+        <ng-template #elseBlock>
+          <ion-list>
+            <ion-item *ngFor="let collection of marker.value.collections | keyvalue;trackBy: trackByFn">
+              <ion-label>{{collection.value}} {{collection.key}}</ion-label>
+            </ion-item>
+          </ion-list>
+        </ng-template>
+      </ion-card-content>
+    </agm-info-window>
   </agm-marker>
 </agm-map>

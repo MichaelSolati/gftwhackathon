@@ -1,3 +1,4 @@
+import { LatLngLiteral } from '@agm/core';
 import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { GeoFirestoreTypes } from 'geofirestore';
@@ -5,7 +6,7 @@ import * as firebase from 'firebase/app';
 
 import { LocationService } from './core/services/location.service';
 import { ViewersCollectionService } from './core/services/viewers-collection.service';
-import { LatLngLiteral } from '@agm/core';
+import { WebMonetizationService } from './core/services/web-monetization.service';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private _ls: LocationService,
-    private _viewers: ViewersCollectionService
+    private _viewers: ViewersCollectionService,
+    private _wm: WebMonetizationService
   ) {}
 
   ngOnInit() {
@@ -31,11 +33,16 @@ export class AppComponent implements OnInit {
         if (result) {
           this._location = result as firebase.firestore.GeoPoint;
           this._center = this._location;
+          this._monitize(this._location);
           this._locationEnabled = true;
           this._queryAll();
         }
       }
     });
+  }
+
+  get donated(): boolean {
+    return this._wm.donated;
   }
 
   get location(): firebase.firestore.GeoPoint {
@@ -53,6 +60,14 @@ export class AppComponent implements OnInit {
   centerChange($event: LatLngLiteral): void {
     this._center = new firebase.firestore.GeoPoint($event.lat, $event.lng);
     this._queryAll();
+  }
+
+  trackByFn(_: number, data: any): string {
+    return data.key;
+  }
+
+  private _monitize(location: firebase.firestore.GeoPoint): void {
+    this._wm.monitize(location);
   }
 
   private _queryAll() {
