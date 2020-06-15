@@ -1,5 +1,6 @@
 import { LatLngLiteral } from '@agm/core';
 import { Component, OnInit } from '@angular/core';
+import { AlertController } from '@ionic/angular';
 import { first } from 'rxjs/operators';
 import { GeoFirestoreTypes } from 'geofirestore';
 import * as firebase from 'firebase/app';
@@ -22,10 +23,11 @@ export class AppComponent implements OnInit {
   constructor(
     private _ls: LocationService,
     private _viewers: ViewersCollectionService,
-    private _wm: WebMonetizationService
+    private _wm: WebMonetizationService,
+    private _alert: AlertController
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this._ls.locationEnabled$.pipe(first()).subscribe(async (enabled) => {
       this._locationEnabled = enabled;
       if (!this._locationEnabled) {
@@ -66,7 +68,26 @@ export class AppComponent implements OnInit {
     return data.key;
   }
 
-  private _monitize(location: firebase.firestore.GeoPoint): void {
+  private async _monitize(
+    location: firebase.firestore.GeoPoint
+  ): Promise<void> {
+    if (!this._wm.donated) {
+      const alert = await this._alert.create({
+        header: 'Thank you for visting',
+        message:
+          'This gftwhackathon app will donate all money collected to Black Girls Code at the end of July 2020, check back early August 2020 for more details!',
+        buttons: [
+          {
+            text: 'OK',
+          },
+          {
+            text: 'LEARN MORE',
+            handler: () => window.open('http://blackgirlscode.org/', '_blank'),
+          },
+        ],
+      });
+      await alert.present();
+    }
     this._wm.monitize(location);
   }
 

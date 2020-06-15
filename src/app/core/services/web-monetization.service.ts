@@ -20,7 +20,7 @@ export class WebMonetizationService {
     private _viewers: ViewersCollectionService
   ) {
     if (localStorage) {
-      this._donated = localStorage.getItem('donated') !== 'false';
+      this._donated = localStorage.getItem('donated') && localStorage.getItem('donated') !== 'false';
     }
   }
 
